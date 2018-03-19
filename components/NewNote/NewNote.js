@@ -1,10 +1,18 @@
 import React from 'react';
-import { StyleSheet, View, TextInput } from 'react-native';
+import { 
+  StyleSheet,
+  View,
+  TextInput,
+  Alert,
+  Button
+} from 'react-native';
 
 export default class NewNote extends React.Component {
   constructor(props) {
     super(props);
     this.state = {text: ''};
+
+    this.onAddNote = this.onAddNote.bind(this);
   }
 
   render() {
@@ -15,8 +23,17 @@ export default class NewNote extends React.Component {
           placeholder="Write a note"
           onChangeText={(text) => this.setState({text})}
         />
+        <Button
+          style={styles.addButton}
+          onPress={this.onAddNote}
+          title="Add"
+        />
       </View>
     );
+  }
+
+  onAddNote() {
+    Alert.alert(`You added a new note: ${this.state.text}`);
   }
 }
 
@@ -35,5 +52,8 @@ const styles = StyleSheet.create({
 
     fontSize: 20,
     height: 60,
+  },
+  addButton: {
+    flex: 1,
   }
 });
