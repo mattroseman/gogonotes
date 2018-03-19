@@ -51,17 +51,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 
     margin: 10,
+
+    maxHeight: 60,
+    minHeight: 60,
   },
   input: {
     flex: 1,
 
     fontSize: 20,
 
-    borderColor: 'black',
-    borderWidth: 1,
-    borderRadius: 10,
+    // borderColor: 'black',
+    // borderWidth: 1,
+    // borderRadius: 10,
 
-    padding: 5,
+    // padding: 5,
 
     height: 60,
   },
