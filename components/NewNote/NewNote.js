@@ -3,8 +3,13 @@ import {
   StyleSheet,
   View,
   TextInput,
-  Button
+  TouchableOpacity,
+  Text
 } from 'react-native';
+
+import colors from '../../colors';
+
+// TODO make this whole thing a popup, and have an add/cancel at the bottom, or click outside to cancel
 
 export default class NewNote extends React.Component {
   constructor(props) {
@@ -22,24 +27,34 @@ export default class NewNote extends React.Component {
 
     return (
       <View style={styles.container}>
-        <TextInput
-          style={styles.input}
-          placeholder="Write a note"
-          onChangeText={(text) => this.setState({text})}
-          value={this.state.text}
-          multiline={true}
-          underlineColorAndroid='transparent'
-        />
-        <Button
-          style={styles.addButton}
-          onPress={this.handleAddButtonPress}
-          title="Add"
-        />
-        <Button
-          style={styles.cancelButton}
-          onPress={this.handleCancelButtonPress}
-          title="Cancel"
-        />
+        <View style={styles.textContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Write a note"
+            onChangeText={(text) => this.setState({text})}
+            value={this.state.text}
+            multiline={true}
+            underlineColorAndroid='transparent'
+            enablesReturnKeyAutomatically={true}
+            textAlignVertical='top'
+          />
+        </View>
+        <View style={styles.buttons}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={this.handleCancelButtonPress}
+            color={colors.secondaryColor}
+          >
+            <Text style={styles.buttonText}>Cancel</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={this.handleAddButtonPress}
+            color={colors.secondaryColor}
+          >
+            <Text style={styles.buttonText}>Add</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -66,32 +81,54 @@ export default class NewNote extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch',
 
-    margin: 10,
+    maxHeight: 220,
+    minHeight: 220,
+  },
 
-    maxHeight: 60,
-    minHeight: 60,
+  textContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'stretch',
+
+    backgroundColor: 'white',
+
+    padding: 10,
+
+    maxHeight: 180,
+    minHeight: 180,
   },
   input: {
     flex: 1,
+    justifyContent: 'flex-start',
 
     fontSize: 20,
-
-    // borderColor: 'black',
-    // borderWidth: 1,
-    // borderRadius: 10,
-
-    // padding: 5,
-
-    height: 60,
   },
-  addButton: {
+
+  buttons: {
     flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'stretch',
+
+    backgroundColor: '#EAEAEA',
   },
-  cancelButton: {
+  button: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    backgroundColor: colors.secondaryColor,
+
+    marginLeft: 10,
+
+    width: 20,
+  },
+  buttonText: {
+    color: 'white',
   }
 });

@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, FlatList, Text } from 'react-native';
 
+import colors from '../../colors';
+
 export default class Notes extends React.Component {
   render() {
     return (
@@ -27,7 +29,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'stretch',
 
-    backgroundColor: '#E2E2E2',
+    backgroundColor: colors.primaryColor,
   },
   note: {
     flex: 1,
@@ -35,7 +37,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
 
-    backgroundColor: 'white',
+    backgroundColor: colors.primaryColorLight,
 
     borderRadius: 10,
 
@@ -46,6 +48,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   noteText: {
+    color: 'white',
     fontSize: 20,
   },
 });

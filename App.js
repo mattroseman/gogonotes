@@ -2,7 +2,8 @@ import React from 'react';
 import {
   StyleSheet,
   Alert,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Modal
 } from 'react-native';
 
 import Header from './components/Header/Header';
@@ -10,10 +11,12 @@ import Notes from './components/Notes/Notes';
 import NewNote from './components/NewNote/NewNote';
 import Add from './components/Add/Add';
 
+import colors from './colors';
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       notes: [],
       showAddButton: true,
       showAddTextComponent: false,
@@ -34,12 +37,21 @@ export default class App extends React.Component {
       >
         <Header title="GoGoNotes"></Header>
         <Notes notes={this.state.notes}></Notes>
-        <NewNote
-          show={this.state.showAddTextComponent}
-          onAddNote={this.handleAddNote}
-          onCancel={this.handleCancelNote}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.showAddTextComponent}
+          onRequestClose={() => {
+            console.log('Modal closed');
+          }}
         >
-        </NewNote>
+          <NewNote
+            show={this.state.showAddTextComponent}
+            onAddNote={this.handleAddNote}
+            onCancel={this.handleCancelNote}
+          >
+          </NewNote>
+        </Modal>
         <Add
           show={this.state.showAddButton}
           onAddText={this.handleShowAddText}
@@ -59,7 +71,7 @@ export default class App extends React.Component {
       data: note
     };
     this.setState((prevState) => {
-      return { 
+      return {
         notes: prevState.notes.concat([newNote]),
         showAddButton: true,
         showAddTextComponent: false,
@@ -89,10 +101,10 @@ export default class App extends React.Component {
     console.log('opening add audio component');
     // TODO hide Add component
     // TODO show component for adding audio
-    this.setState({
-      showAddButton: false,
-      showAddAudioComponent: true,
-    });
+    // this.setState({
+    //   showAddButton: false,
+    //   showAddAudioComponent: true,
+    // });
   }
 }
 
@@ -103,7 +115,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch',
 
-    backgroundColor: '#fff',
+    backgroundColor: colors.primaryColor,
   },
   header: {
     flex: 1,

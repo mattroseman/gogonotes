@@ -3,6 +3,8 @@ import { StyleSheet, View } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import colors from '../../colors';
+
 export default class Add extends React.Component {
   render() {
     if (!this.props.show) {
@@ -12,11 +14,12 @@ export default class Add extends React.Component {
     return (
       <View style={styles.container}>
         <ActionButton 
-          buttonColor="rgba(231,76,60,1)"
+          buttonColor={colors.secondaryColor}
           size={80}
+          fixNativeFeedbackRadius={true}
         >
           <ActionButton.Item
-            buttonColor="#9b59b6"
+            buttonColor={colors.secondaryColorLight}
             size={60}
             textContainerStyle={styles.actionButtonTextContainer}
             textStyle={styles.actionButtonText}
@@ -27,7 +30,7 @@ export default class Add extends React.Component {
           </ActionButton.Item>
 
           <ActionButton.Item
-            buttonColor="#9b59b6"
+            buttonColor={colors.secondaryColorLight}
             size={60}
             textContainerStyle={styles.actionButtonTextContainer}
             textStyle={styles.actionButtonText}
@@ -56,9 +59,14 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   actionButtonTextContainer: {
+    backgroundColor: colors.secondaryColorLight,
+    // borderWidth: 1.5,
+    borderColor: colors.secondaryColorDark,
+
     height: 30,
   },
   actionButtonText: {
+    color: 'white',
     fontSize: 20,
   }
 });

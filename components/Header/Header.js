@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
+import colors from '../../colors';
+
 export default class Notes extends React.Component {
   render() {
     return (
@@ -18,12 +20,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
 
-    paddingTop: 20,
+    backgroundColor: colors.primaryColorDark,
 
-    maxHeight: 50,
-    minHeight: 50,
+    paddingTop: 20,
+    paddingBottom: 10,
+
+    maxHeight: 60,
+    minHeight: 60,
   },
   title: {
     fontSize: 25,
+
+    color: 'white',
   }
 });
