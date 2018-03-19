@@ -7,17 +7,22 @@ import {
 
 import Header from './components/Header/Header';
 import Notes from './components/Notes/Notes';
-// import NewNote from './components/NewNote/NewNote';
+import NewNote from './components/NewNote/NewNote';
 import Add from './components/Add/Add';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { notes: [] };
+    this.state = { 
+      notes: [],
+      showAddButton: true,
+      showAddTextComponent: false,
+      showAddAudioComponent: false,
+    };
 
     this.handleAddNote = this.handleAddNote.bind(this);
-    this.handleAddText = this.handleAddText.bind(this);
-    this.handleAddAudio = this.handleAddAudio.bind(this);
+    this.handleShowAddText = this.handleShowAddText.bind(this);
+    this.handleShowAddAudio = this.handleShowAddAudio.bind(this);
   }
 
   render() {
@@ -28,7 +33,17 @@ export default class App extends React.Component {
       >
         <Header title="GoGoNotes"></Header>
         <Notes notes={this.state.notes}></Notes>
-        <Add onAddText={this.handleAddText} onAddAudio={this.handleAddAudio}></Add>
+        <NewNote
+          show={this.state.showAddTextComponent}
+          onAddNote={this.handleAddNote}
+        >
+        </NewNote>
+        <Add
+          show={this.state.showAddButton}
+          onAddText={this.handleShowAddText}
+          onAddAudio={this.handleShowAddAudio}
+        >
+        </Add>
       </KeyboardAvoidingView>
     );
 
@@ -42,16 +57,33 @@ export default class App extends React.Component {
       data: note
     };
     this.setState((prevState) => {
-      return { notes: prevState.notes.concat([newNote]) };
+      return { 
+        notes: prevState.notes.concat([newNote]),
+        showAddButton: true,
+        showAddTextComponent: false,
+      };
     });
   }
 
-  handleAddText() {
+  handleShowAddText() {
     console.log('opening add text component');
+    // TODO hide Add component
+    // TODO show component for adding text
+    this.setState({
+      showAddButton: false,
+      showAddTextComponent: true,
+    });
+    // TODO bring up keyboard
   }
 
-  handleAddAudio() {
+  handleShowAddAudio() {
     console.log('opening add audio component');
+    // TODO hide Add component
+    // TODO show component for adding audio
+    this.setState({
+      showAddButton: false,
+      showAddAudioComponent: true,
+    });
   }
 }
 

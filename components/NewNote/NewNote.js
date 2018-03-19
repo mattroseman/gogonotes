@@ -15,6 +15,10 @@ export default class NewNote extends React.Component {
   }
 
   render() {
+    if (!this.props.show) {
+      return null;
+    }
+
     return (
       <View style={styles.container}>
         <TextInput

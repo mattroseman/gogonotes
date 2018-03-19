@@ -5,6 +5,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 export default class Add extends React.Component {
   render() {
+    if (!this.props.show) {
+      return null;
+    }
+
     return (
       <View style={styles.container}>
         <ActionButton 
