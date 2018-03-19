@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, KeyboardAvoidingView, View } from 'react-native';
 
 import NewNote from './components/NewNote/NewNote.js';
+import Notes from './components/Notes/Notes';
 
 export default class App extends React.Component {
   render() {
@@ -10,6 +11,7 @@ export default class App extends React.Component {
         style={styles.container}
         behavior="padding"
       >
+        <Notes></Notes>
         <NewNote></NewNote>
       </KeyboardAvoidingView>
     );
@@ -24,5 +26,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 
     backgroundColor: '#fff',
-  },
+  }
 });

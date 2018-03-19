@@ -42,16 +42,16 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'flex-end',
+    alignItems: 'center',
 
-    marginLeft: 10,
-    marginRight: 10,
+    margin: 10,
   },
   input: {
     flex: 1,
 
     fontSize: 20,
-    height: 60,
+
+    height: 50,
   },
   addButton: {
     flex: 1,
