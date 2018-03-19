@@ -11,7 +11,8 @@ export default class NewNote extends React.Component {
     super(props);
     this.state = {text: ''};
 
-    this.handleButtonPress = this.handleButtonPress.bind(this);
+    this.handleAddButtonPress = this.handleAddButtonPress.bind(this);
+    this.handleCancelButtonPress = this.handleCancelButtonPress.bind(this);
   }
 
   render() {
@@ -31,16 +32,31 @@ export default class NewNote extends React.Component {
         />
         <Button
           style={styles.addButton}
-          onPress={this.handleButtonPress}
+          onPress={this.handleAddButtonPress}
           title="Add"
+        />
+        <Button
+          style={styles.cancelButton}
+          onPress={this.handleCancelButtonPress}
+          title="Cancel"
         />
       </View>
     );
   }
 
-  handleButtonPress() {
+  handleAddButtonPress() {
     this.props.onAddNote(this.state.text);
 
+    // TODO do I need to do this, it should reset when adding again
+    this.setState({
+      text: ''
+    });
+  }
+
+  handleCancelButtonPress() {
+    this.props.onCancel();
+
+    // TODO do I need to do this, it should reset when adding again
     this.setState({
       text: ''
     });
@@ -73,6 +89,9 @@ const styles = StyleSheet.create({
     height: 60,
   },
   addButton: {
+    flex: 1,
+  },
+  cancelButton: {
     flex: 1,
   }
 });

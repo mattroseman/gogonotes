@@ -23,6 +23,7 @@ export default class App extends React.Component {
     this.handleAddNote = this.handleAddNote.bind(this);
     this.handleShowAddText = this.handleShowAddText.bind(this);
     this.handleShowAddAudio = this.handleShowAddAudio.bind(this);
+    this.handleCancelNote = this.handleCancelNote.bind(this);
   }
 
   render() {
@@ -36,6 +37,7 @@ export default class App extends React.Component {
         <NewNote
           show={this.state.showAddTextComponent}
           onAddNote={this.handleAddNote}
+          onCancel={this.handleCancelNote}
         >
         </NewNote>
         <Add
@@ -62,6 +64,13 @@ export default class App extends React.Component {
         showAddButton: true,
         showAddTextComponent: false,
       };
+    });
+  }
+
+  handleCancelNote() {
+    this.setState({
+      showAddButton: true,
+      showAddTextComponent: false,
     });
   }
 
