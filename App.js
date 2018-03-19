@@ -6,8 +6,9 @@ import {
   Alert
 } from 'react-native';
 
-import NewNote from './components/NewNote/NewNote.js';
+import Header from './components/Header/Header';
 import Notes from './components/Notes/Notes';
+import NewNote from './components/NewNote/NewNote.js';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -23,7 +24,7 @@ export default class App extends React.Component {
         style={styles.container}
         behavior="padding"
       >
-        <View style={styles.header}></View>
+        <Header title="GoGoNotes"></Header>
         <Notes notes={this.state.notes}></Notes>
         <NewNote onAddNote={this.handleAddNote}></NewNote>
       </KeyboardAvoidingView>
