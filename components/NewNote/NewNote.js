@@ -22,6 +22,8 @@ export default class NewNote extends React.Component {
           placeholder="Write a note"
           onChangeText={(text) => this.setState({text})}
           value={this.state.text}
+          multiline={true}
+          underlineColorAndroid='transparent'
         />
         <Button
           style={styles.addButton}
@@ -55,7 +57,13 @@ const styles = StyleSheet.create({
 
     fontSize: 20,
 
-    height: 50,
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 10,
+
+    padding: 5,
+
+    height: 60,
   },
   addButton: {
     flex: 1,
