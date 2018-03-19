@@ -24,6 +24,6 @@ const styles = StyleSheet.create({
     minHeight: 50,
   },
   title: {
-    fontSize: 30,
+    fontSize: 25,
   }
 });
