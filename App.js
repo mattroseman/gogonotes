@@ -1,14 +1,14 @@
 import React from 'react';
 import {
   StyleSheet,
-  KeyboardAvoidingView,
-  View,
-  Alert
+  Alert,
+  KeyboardAvoidingView
 } from 'react-native';
 
 import Header from './components/Header/Header';
 import Notes from './components/Notes/Notes';
-import NewNote from './components/NewNote/NewNote.js';
+// import NewNote from './components/NewNote/NewNote';
+import Add from './components/Add/Add';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -16,6 +16,8 @@ export default class App extends React.Component {
     this.state = { notes: [] };
 
     this.handleAddNote = this.handleAddNote.bind(this);
+    this.handleAddText = this.handleAddText.bind(this);
+    this.handleAddAudio = this.handleAddAudio.bind(this);
   }
 
   render() {
@@ -26,9 +28,10 @@ export default class App extends React.Component {
       >
         <Header title="GoGoNotes"></Header>
         <Notes notes={this.state.notes}></Notes>
-        <NewNote onAddNote={this.handleAddNote}></NewNote>
+        <Add onAddText={this.handleAddText} onAddAudio={this.handleAddAudio}></Add>
       </KeyboardAvoidingView>
     );
+
   }
 
   handleAddNote(note) {
@@ -41,6 +44,14 @@ export default class App extends React.Component {
     this.setState((prevState) => {
       return { notes: prevState.notes.concat([newNote]) };
     });
+  }
+
+  handleAddText() {
+    console.log('opening add text component');
+  }
+
+  handleAddAudio() {
+    console.log('opening add audio component');
   }
 }
 
