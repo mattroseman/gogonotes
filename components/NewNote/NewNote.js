@@ -1,9 +1,8 @@
 import React from 'react';
-import { 
+import {
   StyleSheet,
   View,
   TextInput,
-  Alert,
   Button
 } from 'react-native';
 
@@ -12,7 +11,7 @@ export default class NewNote extends React.Component {
     super(props);
     this.state = {text: ''};
 
-    this.onAddNote = this.onAddNote.bind(this);
+    this.handleButtonPress = this.handleButtonPress.bind(this);
   }
 
   render() {
@@ -22,18 +21,23 @@ export default class NewNote extends React.Component {
           style={styles.input}
           placeholder="Write a note"
           onChangeText={(text) => this.setState({text})}
+          value={this.state.text}
         />
         <Button
           style={styles.addButton}
-          onPress={this.onAddNote}
+          onPress={this.handleButtonPress}
           title="Add"
         />
       </View>
     );
   }
 
-  onAddNote() {
-    Alert.alert(`You added a new note: ${this.state.text}`);
+  handleButtonPress() {
+    this.props.onAddNote(this.state.text);
+
+    this.setState({
+      text: ''
+    });
   }
 }
 

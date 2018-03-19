@@ -1,20 +1,45 @@
 import React from 'react';
-import { StyleSheet, KeyboardAvoidingView, View } from 'react-native';
+import {
+  StyleSheet,
+  KeyboardAvoidingView,
+  View,
+  Alert
+} from 'react-native';
 
 import NewNote from './components/NewNote/NewNote.js';
 import Notes from './components/Notes/Notes';
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { notes: [] };
+
+    this.handleAddNote = this.handleAddNote.bind(this);
+  }
+
   render() {
     return (
-      <KeyboardAvoidingView 
+      <KeyboardAvoidingView
         style={styles.container}
         behavior="padding"
       >
-        <Notes></Notes>
-        <NewNote></NewNote>
+        <View style={styles.header}></View>
+        <Notes notes={this.state.notes}></Notes>
+        <NewNote onAddNote={this.handleAddNote}></NewNote>
       </KeyboardAvoidingView>
     );
+  }
+
+  handleAddNote(note) {
+    // TODO use a unique id for every note, besides getting length
+    // what happens when you delete notes?
+    var newNote = {
+      key: this.state.notes.length,
+      data: note
+    };
+    this.setState((prevState) => {
+      return { notes: prevState.notes.concat([newNote]) };
+    });
   }
 }
 
@@ -26,5 +51,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 
     backgroundColor: '#fff',
+  },
+  header: {
+    flex: 1,
   }
 });
