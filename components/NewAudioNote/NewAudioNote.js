@@ -126,7 +126,7 @@ export default class NewAudioNote extends React.Component {
       await recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY);
       await recording.startAsync();
     } catch (err) {
-      console.err(err);
+      console.error(err);
     }
 
     this.recording = recording;
@@ -141,7 +141,7 @@ export default class NewAudioNote extends React.Component {
     try {
       await this.recording.stopAndUnloadAsync();
     } catch (err) {
-      console.err(err);
+      console.error(err);
     }
 
     console.log(this.recording.getURI());
@@ -153,7 +153,7 @@ export default class NewAudioNote extends React.Component {
     });
 
     if (this.sound != null) {
-      this.sound.playAsync();
+      this.sound.replayAsync();
     } else {
       const info = await FileSystem.getInfoAsync(this.recording.getURI());
       await Audio.setAudioModeAsync({
@@ -170,6 +170,15 @@ export default class NewAudioNote extends React.Component {
         volume: 1.0,
         rate: 1.0,
         shouldCorrectPitch: true,
+      });
+
+
+      sound.setOnPlaybackStatusUpdate((playbackStatus) => {
+        if (playbackStatus.didJustFinish) {
+          this.setState({
+            playing: false,
+          });
+        }
       });
 
       this.sound = sound;
