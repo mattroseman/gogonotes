@@ -28,9 +28,12 @@ export default class App extends React.Component {
       haveRecordingPermissions: false,
     };
 
-    this.handleAddNote = this.handleAddNote.bind(this);
+    this.handleAddText = this.handleAddText.bind(this);
+    this.handleAddAudio = this.handleAddAudio.bind(this);
+
     this.handleShowAddText = this.handleShowAddText.bind(this);
     this.handleShowAddAudio = this.handleShowAddAudio.bind(this);
+
     this.handleCancelAddText = this.handleCancelAddText.bind(this);
     this.handleCancelAddAudio = this.handleCancelAddAudio.bind(this);
   }
@@ -73,7 +76,7 @@ export default class App extends React.Component {
         >
           <NewTextNote
             show={this.state.showAddTextComponent}
-            onAddNote={this.handleAddNote}
+            onAdd={this.handleAddText}
             onCancel={this.handleCancelAddText}
           >
           </NewTextNote>
@@ -94,7 +97,7 @@ export default class App extends React.Component {
         >
           <NewAudioNote
             show={this.state.showAddAudioComponent}
-            onAddNote={this.handleAddNote}
+            onAdd={this.handleAddAudio}
             onCancel={this.handleCancelAddAudio}
           >
           </NewAudioNote>
@@ -110,12 +113,13 @@ export default class App extends React.Component {
 
   }
 
-  handleAddNote(note) {
+  handleAddText(text) {
     // TODO use a unique id for every note, besides getting length
     // what happens when you delete notes?
     var newNote = {
       key: this.state.notes.length,
-      data: note
+      type: 'text',
+      data: text
     };
     this.setState((prevState) => {
       return {
@@ -126,8 +130,19 @@ export default class App extends React.Component {
     });
   }
 
-  handleAddAudio(audio) {
-    // TODO write this
+  handleAddAudio(audioURI) {
+    var newNote = {
+      key: this.state.notes.length,
+      type: 'audio',
+      data: audioURI
+    };
+    this.setState((prevState) => {
+      return {
+        notes: prevState.notes.concat([newNote]),
+        showAddButton: true,
+        showAddAudioComponent: false,
+      };
+    });
   }
 
   handleCancelAddText() {

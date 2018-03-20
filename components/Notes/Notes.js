@@ -10,11 +10,20 @@ export default class Notes extends React.Component {
         <FlatList
           data={this.props.notes}
           renderItem={({item}) => {
-            return (
-              <View style={styles.note}>
-                <Text style={styles.noteText}>{item.data}</Text>
-              </View>
-            );
+            if (item.type === 'text') {
+              return (
+                <View style={styles.note}>
+                  <Text style={styles.noteText}>{item.data}</Text>
+                </View>
+              );
+            } else if (item.type === 'audio') {
+              // TODO show a playback button instead of URI
+              return (
+                <View style={styles.note}>
+                  <Text style={styles.noteText}>{item.data}</Text>
+                </View>
+              );
+            }
           }}
         />
       </View>

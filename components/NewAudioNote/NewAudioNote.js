@@ -17,7 +17,7 @@ export default class NewAudioNote extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      audio: null,
+      audioURI: null,
       recording: false,
       showPlayback: false,
       playing: false,
@@ -99,21 +99,15 @@ export default class NewAudioNote extends React.Component {
   }
 
   handleAddButtonPress() {
-    this.props.onAddNote(this.state.text);
-
-    // TODO do I need to do this, it should reset when adding again
-    this.setState({
-      text: ''
-    });
+    if (this.state.audioURI != null) {
+      this.props.onAdd(this.state.audioURI);
+    } else {
+      this.props.onCancel();
+    }
   }
 
   handleCancelButtonPress() {
     this.props.onCancel();
-
-    // TODO do I need to do this, it should reset when adding again
-    this.setState({
-      text: ''
-    });
   }
 
   async handleStartRecording() {
@@ -144,7 +138,9 @@ export default class NewAudioNote extends React.Component {
       console.error(err);
     }
 
-    console.log(this.recording.getURI());
+    this.setState({
+      audioURI: this.recording.getURI()
+    });
   }
 
   async handleStartPlaying() {
