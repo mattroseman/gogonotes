@@ -37,7 +37,7 @@ export default class NewAudioNote extends React.Component {
     }
 
     if (this.state.showPlayback) {
-      var recorderContainer = (<Playback audioURI={this.state.audioURI}></Playback>);
+      var recorderContainer = (<Playback audioURI={this.state.audioURI} size={50}></Playback>);
     } else {
       var recorderContainer = (
         <TouchableHighlight

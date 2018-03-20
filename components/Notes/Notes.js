@@ -21,7 +21,7 @@ export default class Notes extends React.Component {
             } else if (item.type === 'audio') {
               return (
                 <View style={styles.note}>
-                  <Playback audioURI={item.data}></Playback>
+                  <Playback audioURI={item.data} size={25}></Playback>
                 </View>
               );
             }
