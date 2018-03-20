@@ -6,7 +6,9 @@ import {
   TouchableHighlight,
   Text
 } from 'react-native';
-// import { AudioRecorder, AudioUtils } from 'react-native-audio';
+
+import { Audio } from 'expo';
+
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import colors from '../../colors';
@@ -87,13 +89,31 @@ export default class NewAudioNote extends React.Component {
     });
   }
 
-  handleStartRecording() {
+  async handleStartRecording() {
+    const recording = new Audio.Recording();
+    try {
+      await recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_LOW_QUALITY);
+      await recording.startAsync();
+    } catch (err) {
+      console.err(err);
+    }
+
+    this.recording = recording;
+
     this.setState({
       recording: true,
     });
   }
 
-  handleStopRecording() {
+  async handleStopRecording() {
+    try {
+      await this.recording.stopAndUnloadAsync();
+    } catch (err) {
+      console.err(err);
+    }
+
+    console.log(this.recording.getURI());
+
     this.setState({
       recording: false,
     });
