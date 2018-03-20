@@ -7,7 +7,7 @@ import {
   Text
 } from 'react-native';
 
-import { Audio } from 'expo';
+import { Audio, FileSystem } from 'expo';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -123,7 +123,7 @@ export default class NewAudioNote extends React.Component {
 
     const recording = new Audio.Recording();
     try {
-      await recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_LOW_QUALITY);
+      await recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY);
       await recording.startAsync();
     } catch (err) {
       console.err(err);
@@ -147,16 +147,45 @@ export default class NewAudioNote extends React.Component {
     console.log(this.recording.getURI());
   }
 
-  handleStartPlaying() {
+  async handleStartPlaying() {
     this.setState({
       playing: true,
     });
+
+    if (this.sound != null) {
+      this.sound.playAsync();
+    } else {
+      const info = await FileSystem.getInfoAsync(this.recording.getURI());
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: false,
+        interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+        playsInSilentModeIOS: true,
+        playsInSilentLockedModeIOS: true,
+        shouldDuckAndroid: true,
+        interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+      });
+      const { sound, status } = await this.recording.createNewLoadedSound({
+        isLooping: false,
+        isMuted: false,
+        volume: 1.0,
+        rate: 1.0,
+        shouldCorrectPitch: true,
+      });
+
+      this.sound = sound;
+
+      this.sound.playAsync();
+    }
   }
 
   handleStopPlaying() {
     this.setState({
       playing: false,
     });
+
+    if (this.sound != null) {
+      this.sound.pauseAsync();
+    }
   }
 }
 
