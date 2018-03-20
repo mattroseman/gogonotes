@@ -62,6 +62,26 @@ export default class App extends React.Component {
       tx.executeSql(
         'create table if not exists notes (id integer primary key not null, type text not null, value text not null, date text not null);'
       );
+
+      tx.executeSql(
+        'select from notes;',
+        [],
+        (_, { rows }) => {
+          // TODO load the data when app starts up
+          console.log('test');
+          console.log(JSON.stringify(rows));
+          this.setState({
+            notes: rows.array.map((row) => {
+              return {
+                key: row.id,
+                type: row.type,
+                value: row.value,
+                date: row.date
+              };
+            })
+          });
+        }
+      );
     });
   }
 
