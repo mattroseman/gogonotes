@@ -19,12 +19,18 @@ export default class NewAudioNote extends React.Component {
     this.state = {
       audio: null,
       recording: false,
+      showPlayback: false,
+      playing: false,
     };
 
     this.handleAddButtonPress = this.handleAddButtonPress.bind(this);
     this.handleCancelButtonPress = this.handleCancelButtonPress.bind(this);
+
     this.handleStartRecording = this.handleStartRecording.bind(this);
     this.handleStopRecording = this.handleStopRecording.bind(this);
+
+    this.handleStartPlaying = this.handleStartPlaying.bind(this);
+    this.handleStopPlaying = this.handleStopPlaying.bind(this);
   }
 
   render() {
@@ -32,24 +38,45 @@ export default class NewAudioNote extends React.Component {
       return null;
     }
 
+    if (this.state.showPlayback) {
+      var recorderContainer = (
+        <TouchableOpacity
+          style={this.state.playing ? styles.playbackButtonPlaying : styles.playbackButton}
+          onPress={this.state.playing ? this.handleStopPlaying : this.handleStartPlaying}
+        >
+          <Icon
+            name={this.state.playing ? 'md-pause' : 'md-play'}
+            style={this.state.playing ? styles.playbackButtonIconPlaying : styles.playbackButtonIcon}
+            size={50}
+            color={colors.secondaryColor}
+          >
+          </Icon>
+        </TouchableOpacity>
+      );
+    } else {
+      var recorderContainer = (
+        <TouchableHighlight
+          style={this.state.recording ? styles.recordButtonRecording : styles.recordButton}
+          activeOpacity={.7}
+          underlayColor={colors.red}
+          onPressIn={this.handleStartRecording}
+          onPressOut={this.handleStopRecording}
+        >
+          <Icon
+            name="md-mic"
+            style={styles.recordButtonIcon}
+            size={50}
+            color={this.state.recording ? 'white' : colors.secondaryColor}
+          >
+          </Icon>
+        </TouchableHighlight>
+      );
+    }
+
     return (
       <View style={styles.container}>
         <View style={styles.recorderContainer}>
-          <TouchableHighlight
-            style={this.state.recording ? styles.recordButtonRecording : styles.recordButton}
-            activeOpacity={.7}
-            underlayColor={colors.red}
-            onPressIn={this.handleStartRecording}
-            onPressOut={this.handleStopRecording}
-          >
-            <Icon
-              name="md-mic"
-              style={styles.recordButtonIcon}
-              size={50}
-              color={this.state.recording ? 'white' : colors.secondaryColor}
-            >
-            </Icon>
-          </TouchableHighlight>
+          {recorderContainer}
         </View>
         <View style={styles.buttons}>
           <TouchableOpacity
@@ -90,6 +117,10 @@ export default class NewAudioNote extends React.Component {
   }
 
   async handleStartRecording() {
+    this.setState({
+      recording: true,
+    });
+
     const recording = new Audio.Recording();
     try {
       await recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_LOW_QUALITY);
@@ -99,13 +130,14 @@ export default class NewAudioNote extends React.Component {
     }
 
     this.recording = recording;
-
-    this.setState({
-      recording: true,
-    });
   }
 
   async handleStopRecording() {
+    this.setState({
+      recording: false,
+      showPlayback: true,
+    });
+
     try {
       await this.recording.stopAndUnloadAsync();
     } catch (err) {
@@ -113,9 +145,17 @@ export default class NewAudioNote extends React.Component {
     }
 
     console.log(this.recording.getURI());
+  }
 
+  handleStartPlaying() {
     this.setState({
-      recording: false,
+      playing: true,
+    });
+  }
+
+  handleStopPlaying() {
+    this.setState({
+      playing: false,
     });
   }
 }
@@ -149,6 +189,7 @@ const styles = StyleSheet.create({
     maxHeight: 180,
     minHeight: 180,
   },
+
   recordButton: {
     flex: 1,
     justifyContent: 'center',
@@ -182,6 +223,44 @@ const styles = StyleSheet.create({
     maxWidth: 100,
   },
   recordButtonIcon: {
+  },
+
+  playbackButton: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    borderColor: colors.secondaryColor,
+    borderWidth: 2,
+    borderRadius: 50,
+
+    backgroundColor: 'white',
+
+    minHeight: 100,
+    maxHeight: 100,
+    minWidth: 100,
+    maxWidth: 100,
+  },
+  playbackButtonPlaying: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    borderColor: colors.secondaryColor,
+    borderWidth: 2,
+    borderRadius: 50,
+
+    backgroundColor: 'white',
+
+    minHeight: 100,
+    maxHeight: 100,
+    minWidth: 100,
+    maxWidth: 100,
+  },
+  playbackButtonIcon: {
+    marginLeft: 10,
+  },
+  playbackButtonIconPlaying: {
   },
 
   buttons: {
