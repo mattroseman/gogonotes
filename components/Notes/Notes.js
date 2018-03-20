@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, FlatList, Text } from 'react-native';
 
+import Playback from '../Playback/Playback';
+
 import colors from '../../colors';
 
 export default class Notes extends React.Component {
@@ -17,10 +19,9 @@ export default class Notes extends React.Component {
                 </View>
               );
             } else if (item.type === 'audio') {
-              // TODO show a playback button instead of URI
               return (
                 <View style={styles.note}>
-                  <Text style={styles.noteText}>{item.data}</Text>
+                  <Playback audioURI={item.data}></Playback>
                 </View>
               );
             }

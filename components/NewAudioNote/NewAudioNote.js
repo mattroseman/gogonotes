@@ -7,9 +7,10 @@ import {
   Text
 } from 'react-native';
 
-import { Audio, FileSystem } from 'expo';
-
+import { Audio } from 'expo';
 import Icon from 'react-native-vector-icons/Ionicons';
+
+import Playback from '../Playback/Playback';
 
 import colors from '../../colors';
 
@@ -28,9 +29,6 @@ export default class NewAudioNote extends React.Component {
 
     this.handleStartRecording = this.handleStartRecording.bind(this);
     this.handleStopRecording = this.handleStopRecording.bind(this);
-
-    this.handleStartPlaying = this.handleStartPlaying.bind(this);
-    this.handleStopPlaying = this.handleStopPlaying.bind(this);
   }
 
   render() {
@@ -39,20 +37,7 @@ export default class NewAudioNote extends React.Component {
     }
 
     if (this.state.showPlayback) {
-      var recorderContainer = (
-        <TouchableOpacity
-          style={this.state.playing ? styles.playbackButtonPlaying : styles.playbackButton}
-          onPress={this.state.playing ? this.handleStopPlaying : this.handleStartPlaying}
-        >
-          <Icon
-            name={this.state.playing ? 'md-pause' : 'md-play'}
-            style={this.state.playing ? styles.playbackButtonIconPlaying : styles.playbackButtonIcon}
-            size={50}
-            color={colors.secondaryColor}
-          >
-          </Icon>
-        </TouchableOpacity>
-      );
+      var recorderContainer = (<Playback audioURI={this.state.audioURI}></Playback>);
     } else {
       var recorderContainer = (
         <TouchableHighlight
@@ -142,56 +127,6 @@ export default class NewAudioNote extends React.Component {
       audioURI: this.recording.getURI()
     });
   }
-
-  async handleStartPlaying() {
-    this.setState({
-      playing: true,
-    });
-
-    if (this.sound != null) {
-      this.sound.replayAsync();
-    } else {
-      const info = await FileSystem.getInfoAsync(this.recording.getURI());
-      await Audio.setAudioModeAsync({
-        allowsRecordingIOS: false,
-        interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
-        playsInSilentModeIOS: true,
-        playsInSilentLockedModeIOS: true,
-        shouldDuckAndroid: true,
-        interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-      });
-      const { sound, status } = await this.recording.createNewLoadedSound({
-        isLooping: false,
-        isMuted: false,
-        volume: 1.0,
-        rate: 1.0,
-        shouldCorrectPitch: true,
-      });
-
-
-      sound.setOnPlaybackStatusUpdate((playbackStatus) => {
-        if (playbackStatus.didJustFinish) {
-          this.setState({
-            playing: false,
-          });
-        }
-      });
-
-      this.sound = sound;
-
-      this.sound.playAsync();
-    }
-  }
-
-  handleStopPlaying() {
-    this.setState({
-      playing: false,
-    });
-
-    if (this.sound != null) {
-      this.sound.pauseAsync();
-    }
-  }
 }
 
 const styles = StyleSheet.create({
@@ -257,44 +192,6 @@ const styles = StyleSheet.create({
     maxWidth: 100,
   },
   recordButtonIcon: {
-  },
-
-  playbackButton: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-
-    borderColor: colors.secondaryColor,
-    borderWidth: 2,
-    borderRadius: 50,
-
-    backgroundColor: 'white',
-
-    minHeight: 100,
-    maxHeight: 100,
-    minWidth: 100,
-    maxWidth: 100,
-  },
-  playbackButtonPlaying: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-
-    borderColor: colors.secondaryColor,
-    borderWidth: 2,
-    borderRadius: 50,
-
-    backgroundColor: 'white',
-
-    minHeight: 100,
-    maxHeight: 100,
-    minWidth: 100,
-    maxWidth: 100,
-  },
-  playbackButtonIcon: {
-    marginLeft: 10,
-  },
-  playbackButtonIconPlaying: {
   },
 
   buttons: {
