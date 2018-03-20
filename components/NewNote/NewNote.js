@@ -37,18 +37,19 @@ export default class NewNote extends React.Component {
             underlineColorAndroid='transparent'
             enablesReturnKeyAutomatically={true}
             textAlignVertical='top'
+            autoFocus={true}
           />
         </View>
         <View style={styles.buttons}>
           <TouchableOpacity
-            style={styles.button}
+            style={styles.cancelButton}
             onPress={this.handleCancelButtonPress}
             color={colors.secondaryColor}
           >
             <Text style={styles.buttonText}>Cancel</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.button}
+            style={styles.addButton}
             onPress={this.handleAddButtonPress}
             color={colors.secondaryColor}
           >
@@ -85,7 +86,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch',
 
-    maxHeight: 220,
+    margin: 10,
+    marginTop: 50,
+
     minHeight: 220,
   },
 
@@ -94,6 +97,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'stretch',
+
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
 
     backgroundColor: 'white',
 
@@ -116,19 +122,43 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
 
     backgroundColor: '#EAEAEA',
+
+    borderTopWidth: 1,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+
+    maxHeight: 40,
+    minHeight: 40,
   },
-  button: {
+  addButton: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
 
-    backgroundColor: colors.secondaryColor,
+    borderLeftWidth: .5,
+    //borderTopWidth: 1,
 
-    marginLeft: 10,
+    backgroundColor: '#EAEAEA',
+
+    marginRight: 8,
+
+    width: 20,
+  },
+  cancelButton: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    borderRightWidth: .5,
+    //borderTopWidth: 1,
+
+    backgroundColor: '#EAEAEA',
+
+    marginLeft: 8,
 
     width: 20,
   },
   buttonText: {
-    color: 'white',
+    fontSize: 20,
   }
 });

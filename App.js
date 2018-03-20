@@ -42,7 +42,12 @@ export default class App extends React.Component {
           transparent={true}
           visible={this.state.showAddTextComponent}
           onRequestClose={() => {
-            console.log('Modal closed');
+            // this shouldn't be reached, because keyboard will automatically open with modal
+            // and if back is pressed to remove keyboard, modal will close
+            this.setState({
+              showAddTextComponent: false,
+              showAddButton: true,
+            });
           }}
         >
           <NewNote
@@ -119,5 +124,5 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-  }
+  },
 });
