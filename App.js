@@ -27,7 +27,8 @@ export default class App extends React.Component {
     this.handleAddNote = this.handleAddNote.bind(this);
     this.handleShowAddText = this.handleShowAddText.bind(this);
     this.handleShowAddAudio = this.handleShowAddAudio.bind(this);
-    this.handleCancelNote = this.handleCancelNote.bind(this);
+    this.handleCancelAddText = this.handleCancelAddText.bind(this);
+    this.handleCancelAddAudio = this.handleCancelAddAudio.bind(this);
   }
 
   render() {
@@ -56,7 +57,7 @@ export default class App extends React.Component {
           <NewTextNote
             show={this.state.showAddTextComponent}
             onAddNote={this.handleAddNote}
-            onCancel={this.handleCancelNote}
+            onCancel={this.handleCancelAddText}
           >
           </NewTextNote>
         </Modal>
@@ -77,7 +78,7 @@ export default class App extends React.Component {
           <NewAudioNote
             show={this.state.showAddAudioComponent}
             onAddNote={this.handleAddNote}
-            onCancel={this.handleCancelNote}
+            onCancel={this.handleCancelAddAudio}
           >
           </NewAudioNote>
         </Modal>
@@ -108,10 +109,21 @@ export default class App extends React.Component {
     });
   }
 
-  handleCancelNote() {
+  handleAddAudio(audio) {
+    // TODO write this
+  }
+
+  handleCancelAddText() {
     this.setState({
       showAddButton: true,
       showAddTextComponent: false,
+    });
+  }
+
+  handleCancelAddAudio() {
+    this.setState({
+      showAddButton: true,
+      showAddAudioComponent: false,
     });
   }
 

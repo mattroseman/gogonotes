@@ -9,4 +9,6 @@ export default {
   secondaryColor: '#355C46',
   secondaryColorLight: '#4F7C63',
   secondaryColorDark: '#103922',
+
+  red: '#EB463A',
 };

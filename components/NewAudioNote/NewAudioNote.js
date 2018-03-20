@@ -13,7 +13,10 @@ import colors from '../../colors';
 export default class NewAudioNote extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {audio: null};
+    this.state = {
+      audio: null,
+      recording: false,
+    };
 
     this.handleAddButtonPress = this.handleAddButtonPress.bind(this);
     this.handleCancelButtonPress = this.handleCancelButtonPress.bind(this);
@@ -27,15 +30,23 @@ export default class NewAudioNote extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.recorderContainer}>
-          <Icon
-            style={styles.recordButton}
-            size={30}
-            color={colors.secondaryColor}
+          <TouchableOpacity
+            style={this.state.recording ? styles.recordButtonRecording : styles.recordButton}
             onPress={() => {
-                console.log('recording started');
+              console.log('test');
+              this.setState(prevState => {
+                return { recording: !prevState.recording };
+              });
             }}
           >
-          </Icon>
+            <Icon
+              name="md-mic"
+              style={styles.recordButtonIcon}
+              size={50}
+              color={this.state.recording ? 'white' : colors.secondaryColor}
+            >
+            </Icon>
+          </TouchableOpacity>
         </View>
         <View style={styles.buttons}>
           <TouchableOpacity
@@ -91,9 +102,9 @@ const styles = StyleSheet.create({
 
   recorderContainer: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'stretch',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
 
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
@@ -106,8 +117,38 @@ const styles = StyleSheet.create({
     minHeight: 180,
   },
   recordButton: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    borderColor: colors.secondaryColor,
+    borderWidth: 2,
+    borderRadius: 50,
+
     backgroundColor: 'white',
-    color: colors.secondaryColor,
+
+    minHeight: 100,
+    maxHeight: 100,
+    minWidth: 100,
+    maxWidth: 100,
+  },
+  recordButtonRecording: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    borderColor: colors.primaryColorDark,
+    borderWidth: 1.5,
+    borderRadius: 50,
+
+    backgroundColor: colors.red,
+
+    minHeight: 100,
+    maxHeight: 100,
+    minWidth: 100,
+    maxWidth: 100,
+  },
+  recordButtonIcon: {
   },
 
   buttons: {
