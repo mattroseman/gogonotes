@@ -15,13 +15,13 @@ export default class Notes extends React.Component {
             if (item.type === 'text') {
               return (
                 <View style={styles.note}>
-                  <Text style={styles.noteText}>{item.data}</Text>
+                  <Text style={styles.noteText}>{item.value}</Text>
                 </View>
               );
             } else if (item.type === 'audio') {
               return (
                 <View style={styles.note}>
-                  <Playback audioURI={item.data} size={25}></Playback>
+                  <Playback audioURI={item.value} size={25}></Playback>
                 </View>
               );
             }
