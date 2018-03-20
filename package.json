@@ -5,6 +5,7 @@
     "expo": "^25.0.0",
     "react": "16.2.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
-    "react-native-action-button": "^2.8.4"
+    "react-native-action-button": "^2.8.4",
+    "react-native-audio": "^4.0.0"
   }
 }
