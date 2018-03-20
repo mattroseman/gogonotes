@@ -8,7 +8,8 @@ import {
 
 import Header from './components/Header/Header';
 import Notes from './components/Notes/Notes';
-import NewNote from './components/NewNote/NewNote';
+import NewTextNote from './components/NewTextNote/NewTextNote';
+import NewAudioNote from './components/NewAudioNote/NewAudioNote';
 import Add from './components/Add/Add';
 
 import colors from './colors';
@@ -36,7 +37,9 @@ export default class App extends React.Component {
         behavior="padding"
       >
         <Header title="GoGoNotes"></Header>
+
         <Notes notes={this.state.notes}></Notes>
+
         <Modal
           animationType="slide"
           transparent={true}
@@ -50,12 +53,33 @@ export default class App extends React.Component {
             });
           }}
         >
-          <NewNote
+          <NewTextNote
             show={this.state.showAddTextComponent}
             onAddNote={this.handleAddNote}
             onCancel={this.handleCancelNote}
           >
-          </NewNote>
+          </NewTextNote>
+        </Modal>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.showAddAudioComponent}
+          onRequestClose={() => {
+            // this shouldn't be reached, because keyboard will automatically open with modal
+            // and if back is pressed to remove keyboard, modal will close
+            this.setState({
+              showAddAudioComponent: false,
+              showAddButton: true,
+            });
+          }}
+        >
+          <NewAudioNote
+            show={this.state.showAddAudioComponent}
+            onAddNote={this.handleAddNote}
+            onCancel={this.handleCancelNote}
+          >
+          </NewTextNote>
         </Modal>
         <Add
           show={this.state.showAddButton}

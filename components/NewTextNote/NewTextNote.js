@@ -9,9 +9,7 @@ import {
 
 import colors from '../../colors';
 
-// TODO make this whole thing a popup, and have an add/cancel at the bottom, or click outside to cancel
-
-export default class NewNote extends React.Component {
+export default class NewTextNote extends React.Component {
   constructor(props) {
     super(props);
     this.state = {text: ''};
