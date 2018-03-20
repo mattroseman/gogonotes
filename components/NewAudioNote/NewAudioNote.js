@@ -3,6 +3,7 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
+  TouchableHighlight,
   Text
 } from 'react-native';
 // import { AudioRecorder, AudioUtils } from 'react-native-audio';
@@ -20,6 +21,8 @@ export default class NewAudioNote extends React.Component {
 
     this.handleAddButtonPress = this.handleAddButtonPress.bind(this);
     this.handleCancelButtonPress = this.handleCancelButtonPress.bind(this);
+    this.handleStartRecording = this.handleStartRecording.bind(this);
+    this.handleStopRecording = this.handleStopRecording.bind(this);
   }
 
   render() {
@@ -30,14 +33,12 @@ export default class NewAudioNote extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.recorderContainer}>
-          <TouchableOpacity
+          <TouchableHighlight
             style={this.state.recording ? styles.recordButtonRecording : styles.recordButton}
-            onPress={() => {
-              console.log('test');
-              this.setState(prevState => {
-                return { recording: !prevState.recording };
-              });
-            }}
+            activeOpacity={.7}
+            underlayColor={colors.red}
+            onPressIn={this.handleStartRecording}
+            onPressOut={this.handleStopRecording}
           >
             <Icon
               name="md-mic"
@@ -46,7 +47,7 @@ export default class NewAudioNote extends React.Component {
               color={this.state.recording ? 'white' : colors.secondaryColor}
             >
             </Icon>
-          </TouchableOpacity>
+          </TouchableHighlight>
         </View>
         <View style={styles.buttons}>
           <TouchableOpacity
@@ -83,6 +84,18 @@ export default class NewAudioNote extends React.Component {
     // TODO do I need to do this, it should reset when adding again
     this.setState({
       text: ''
+    });
+  }
+
+  handleStartRecording() {
+    this.setState({
+      recording: true,
+    });
+  }
+
+  handleStopRecording() {
+    this.setState({
+      recording: false,
     });
   }
 }
@@ -137,11 +150,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
 
-    borderColor: colors.primaryColorDark,
+    borderColor: colors.red,
     borderWidth: 1.5,
     borderRadius: 50,
 
-    backgroundColor: colors.red,
+    backgroundColor: 'white',
 
     minHeight: 100,
     maxHeight: 100,

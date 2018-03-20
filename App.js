@@ -6,6 +6,8 @@ import {
   Modal
 } from 'react-native';
 
+import { Permissions } from 'expo';
+
 import Header from './components/Header/Header';
 import Notes from './components/Notes/Notes';
 import NewTextNote from './components/NewTextNote/NewTextNote';
@@ -22,6 +24,8 @@ export default class App extends React.Component {
       showAddButton: true,
       showAddTextComponent: false,
       showAddAudioComponent: false,
+
+      haveRecordingPermissions: false,
     };
 
     this.handleAddNote = this.handleAddNote.bind(this);
@@ -30,6 +34,19 @@ export default class App extends React.Component {
     this.handleCancelAddText = this.handleCancelAddText.bind(this);
     this.handleCancelAddAudio = this.handleCancelAddAudio.bind(this);
   }
+
+  componentDidMount() {
+    this.askForPermissions();
+  }
+
+  askForPermissions = async () => {
+    const response = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
+    this.setState({
+      haveRecordingPermissions: response.status === 'granted',
+    }, () => {
+      console.log(response.status);
+    });
+  };
 
   render() {
     return (
