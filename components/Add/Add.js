@@ -13,7 +13,7 @@ export default class Add extends React.Component {
 
     return (
       <View style={styles.container}>
-        <ActionButton 
+        <ActionButton
           buttonColor={colors.secondaryColor}
           size={80}
           fixNativeFeedbackRadius={true}

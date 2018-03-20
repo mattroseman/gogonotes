@@ -79,7 +79,7 @@ export default class App extends React.Component {
             onAddNote={this.handleAddNote}
             onCancel={this.handleCancelNote}
           >
-          </NewTextNote>
+          </NewAudioNote>
         </Modal>
         <Add
           show={this.state.showAddButton}
@@ -128,12 +128,10 @@ export default class App extends React.Component {
 
   handleShowAddAudio() {
     console.log('opening add audio component');
-    // TODO hide Add component
-    // TODO show component for adding audio
-    // this.setState({
-    //   showAddButton: false,
-    //   showAddAudioComponent: true,
-    // });
+    this.setState({
+      showAddButton: false,
+      showAddAudioComponent: true,
+    });
   }
 }
 

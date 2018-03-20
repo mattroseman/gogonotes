@@ -2,17 +2,18 @@ import React from 'react';
 import {
   StyleSheet,
   View,
-  TextInput,
   TouchableOpacity,
   Text
 } from 'react-native';
+// import { AudioRecorder, AudioUtils } from 'react-native-audio';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import colors from '../../colors';
 
 export default class NewAudioNote extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {text: ''};
+    this.state = {audio: null};
 
     this.handleAddButtonPress = this.handleAddButtonPress.bind(this);
     this.handleCancelButtonPress = this.handleCancelButtonPress.bind(this);
@@ -25,18 +26,16 @@ export default class NewAudioNote extends React.Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.textContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Write a note"
-            onChangeText={(text) => this.setState({text})}
-            value={this.state.text}
-            multiline={true}
-            underlineColorAndroid='transparent'
-            enablesReturnKeyAutomatically={true}
-            textAlignVertical='top'
-            autoFocus={true}
-          />
+        <View style={styles.recorderContainer}>
+          <Icon
+            style={styles.recordButton}
+            size={30}
+            color={colors.secondaryColor}
+            onPress={() => {
+                console.log('recording started');
+            }}
+          >
+          </Icon>
         </View>
         <View style={styles.buttons}>
           <TouchableOpacity
@@ -90,7 +89,7 @@ const styles = StyleSheet.create({
     minHeight: 220,
   },
 
-  textContainer: {
+  recorderContainer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
@@ -106,11 +105,9 @@ const styles = StyleSheet.create({
     maxHeight: 180,
     minHeight: 180,
   },
-  input: {
-    flex: 1,
-    justifyContent: 'flex-start',
-
-    fontSize: 20,
+  recordButton: {
+    backgroundColor: 'white',
+    color: colors.secondaryColor,
   },
 
   buttons: {
