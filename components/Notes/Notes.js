@@ -12,6 +12,15 @@ import Playback from '../Playback/Playback';
 import colors from '../../colors';
 
 export default class Notes extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showDelete: false
+    };
+
+    this.handleLongPress = this.handleLongPress.bind(this);
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -37,7 +46,7 @@ export default class Notes extends React.Component {
                 style={styles.note}
                 activeOpacity={.6}
                 onLongPress={() => {
-                  console.log('long press on note');
+                  this.handleLongPress();
                 }}
               >
                 {noteContent}
@@ -50,6 +59,12 @@ export default class Notes extends React.Component {
         />
       </View>
     );
+  }
+
+  handleLongPress() {
+    this.setState({
+      showDelete: true
+    });
   }
 }
 
