@@ -209,6 +209,9 @@ export default class App extends React.Component {
   handleAddAudio(audioURI) {
     var date = this.getDateTimeString();
 
+    // TODO analyze the audio and get candidate words
+    // Add these words to the database
+
     database.transaction(tx => {
       tx.executeSql(
         `insert into notes (type, value, date) values ('audio', ?, ?);`,
