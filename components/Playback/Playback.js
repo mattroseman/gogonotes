@@ -104,6 +104,8 @@ export default class Playback extends React.Component {
           this.setState({
             playing: false,
           });
+
+          sound.unloadAsync();
         }
       });
 
