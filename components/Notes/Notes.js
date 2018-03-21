@@ -11,10 +11,15 @@ import colors from '../../colors';
 
 export default class Notes extends React.Component {
   render() {
+    var footer = (
+      <View style={styles.footer}></View>
+    );
+
     return (
       <View style={styles.container}>
         <FlatList
           data={this.props.notes}
+          ListFooterComponent={footer}
           renderItem={({item}) => {
             return (
               <Note
@@ -40,5 +45,15 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
 
     backgroundColor: colors.primaryColor,
+  },
+
+  footer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'stretch',
+
+    minHeight: 200,
+    maxHeight: 200,
   },
 });
