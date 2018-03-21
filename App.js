@@ -38,6 +38,8 @@ export default class App extends React.Component {
 
     this.handleCancelAddText = this.handleCancelAddText.bind(this);
     this.handleCancelAddAudio = this.handleCancelAddAudio.bind(this);
+
+    this.handleDeleteNote = this.handleDeleteNote.bind(this);
   }
 
   componentDidMount() {
@@ -92,7 +94,7 @@ export default class App extends React.Component {
       >
         <Header title="GoGoNotes"></Header>
 
-        <Notes notes={this.state.notes}></Notes>
+        <Notes notes={this.state.notes} onDelete={this.handleDeleteNote}></Notes>
 
         <Modal
           animationType="slide"
@@ -226,6 +228,29 @@ export default class App extends React.Component {
     });
   }
 
+  handleDeleteNote(note) {
+    database.transaction(tx => {
+      tx.executeSql(
+        'delete from notes where id = ?;',
+        [note.key],
+        () => {
+          this.setState(prevState => {
+            newNotes = prevState.notes.filter((oldNote) => {
+              return oldNote.key != note.key;
+            });
+
+            return {
+              notes: newNotes
+            };
+          });
+        },
+        (err) => {
+          console.error(err);
+        }
+      );
+    });
+  }
+
   handleCancelAddText() {
     this.setState({
       showAddButton: true,
@@ -241,7 +266,6 @@ export default class App extends React.Component {
   }
 
   handleShowAddText() {
-    console.log('opening add text component');
     this.setState({
       showAddButton: false,
       showAddTextComponent: true,
@@ -249,7 +273,6 @@ export default class App extends React.Component {
   }
 
   handleShowAddAudio() {
-    console.log('opening add audio component');
     this.setState({
       showAddButton: false,
       showAddAudioComponent: true,
