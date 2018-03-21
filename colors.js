@@ -11,4 +11,5 @@ export default {
   secondaryColorDark: '#103922',
 
   red: '#EB463A',
+  gray: '#AAAAAA',
 };

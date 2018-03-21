@@ -1,5 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, FlatList, Text } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  Text,
+  TouchableOpacity
+} from 'react-native';
 
 import Playback from '../Playback/Playback';
 
@@ -13,18 +19,33 @@ export default class Notes extends React.Component {
           data={this.props.notes}
           renderItem={({item}) => {
             if (item.type === 'text') {
-              return (
-                <View style={styles.note}>
+              var noteContent = (
+                <View style={styles.noteTextContainer}>
                   <Text style={styles.noteText}>{item.value}</Text>
                 </View>
               );
-            } else if (item.type === 'audio') {
-              return (
-                <View style={styles.note}>
+            } else {
+              var noteContent = (
+                <View style={styles.noteAudioContainer}>
                   <Playback audioURI={item.value} size={25}></Playback>
                 </View>
               );
             }
+
+            return (
+              <TouchableOpacity
+                style={styles.note}
+                activeOpacity={.6}
+                onLongPress={() => {
+                  console.log('long press on note');
+                }}
+              >
+                {noteContent}
+                <View style={styles.noteDateContainer}>
+                  <Text style={styles.noteDate}>{item.date}</Text>
+                </View>
+              </TouchableOpacity>
+            );
           }}
         />
       </View>
@@ -43,9 +64,9 @@ const styles = StyleSheet.create({
   },
   note: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch',
 
     backgroundColor: colors.primaryColorLight,
 
@@ -57,8 +78,29 @@ const styles = StyleSheet.create({
     marginRight: 2,
     padding: 5,
   },
+  noteTextContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
   noteText: {
     color: 'white',
     fontSize: 20,
+  },
+  noteAudioContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noteDateContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  noteDate: {
+    color: colors.gray,
+    fontSize: 12,
   },
 });
