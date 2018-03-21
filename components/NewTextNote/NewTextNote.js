@@ -4,6 +4,7 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   Text
 } from 'react-native';
 
@@ -24,37 +25,42 @@ export default class NewTextNote extends React.Component {
     }
 
     return (
-      <View style={styles.container}>
-        <View style={styles.textContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Write a note"
-            onChangeText={(text) => this.setState({text})}
-            value={this.state.text}
-            multiline={true}
-            underlineColorAndroid='transparent'
-            enablesReturnKeyAutomatically={true}
-            textAlignVertical='top'
-            autoFocus={true}
-          />
+      <TouchableWithoutFeedback
+        style={styles.container}
+        onPress={this.handleCancelButtonPress}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.textContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Write a note"
+              onChangeText={(text) => this.setState({text})}
+              value={this.state.text}
+              multiline={true}
+              underlineColorAndroid='transparent'
+              enablesReturnKeyAutomatically={true}
+              textAlignVertical='top'
+              autoFocus={true}
+            />
+          </View>
+          <View style={styles.buttons}>
+            <TouchableOpacity
+              style={styles.cancelButton}
+              onPress={this.handleCancelButtonPress}
+              color={colors.secondaryColor}
+            >
+              <Text style={styles.buttonText}>Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.addButton}
+              onPress={this.handleAddButtonPress}
+              color={colors.secondaryColor}
+            >
+              <Text style={styles.buttonText}>Add</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={styles.buttons}>
-          <TouchableOpacity
-            style={styles.cancelButton}
-            onPress={this.handleCancelButtonPress}
-            color={colors.secondaryColor}
-          >
-            <Text style={styles.buttonText}>Cancel</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.addButton}
-            onPress={this.handleAddButtonPress}
-            color={colors.secondaryColor}
-          >
-            <Text style={styles.buttonText}>Add</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      </TouchableWithoutFeedback>
     );
   }
 
@@ -83,9 +89,16 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',
+  },
 
-    margin: 10,
-    marginTop: 50,
+  modalContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'stretch',
+
+    padding: 10,
+    paddingTop: 50,
 
     minHeight: 220,
   },

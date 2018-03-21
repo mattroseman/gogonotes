@@ -9,6 +9,7 @@ import {
 import { Permissions, SQLite } from 'expo';
 
 import Header from './components/Header/Header';
+import SearchBar from './components/SearchBar/SearchBar';
 import Notes from './components/Notes/Notes';
 import NewTextNote from './components/NewTextNote/NewTextNote';
 import NewAudioNote from './components/NewAudioNote/NewAudioNote';
@@ -23,6 +24,8 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       notes: [],
+      showHeader: true,
+      showSearchBar: false,
       showAddButton: true,
       showAddTextComponent: false,
       showAddAudioComponent: false,
@@ -33,9 +36,11 @@ export default class App extends React.Component {
     this.handleAddText = this.handleAddText.bind(this);
     this.handleAddAudio = this.handleAddAudio.bind(this);
 
+    this.handleShowSearch = this.handleShowSearch.bind(this);
     this.handleShowAddText = this.handleShowAddText.bind(this);
     this.handleShowAddAudio = this.handleShowAddAudio.bind(this);
 
+    this.handleCancelSearch = this.handleCancelSearch.bind(this);
     this.handleCancelAddText = this.handleCancelAddText.bind(this);
     this.handleCancelAddAudio = this.handleCancelAddAudio.bind(this);
 
@@ -92,7 +97,20 @@ export default class App extends React.Component {
         style={styles.container}
         behavior="padding"
       >
-        <Header title="GoGoNotes"></Header>
+        <Header title="GoGoNotes" onSearch={this.handleShowSearch}></Header>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.showSearchBar}
+          onRequestClose={this.handleCancelSearch}
+        >
+          <SearchBar
+            show={this.state.showSearchBar}
+            onCancel={this.handleCancelSearch}
+          >
+          </SearchBar>
+        </Modal>
 
         <Notes notes={this.state.notes} onDelete={this.handleDeleteNote}></Notes>
 
@@ -100,14 +118,7 @@ export default class App extends React.Component {
           animationType="slide"
           transparent={true}
           visible={this.state.showAddTextComponent}
-          onRequestClose={() => {
-            // this shouldn't be reached, because keyboard will automatically open with modal
-            // and if back is pressed to remove keyboard, modal will close
-            this.setState({
-              showAddTextComponent: false,
-              showAddButton: true,
-            });
-          }}
+          onRequestClose={this.handleCancelAddText}
         >
           <NewTextNote
             show={this.state.showAddTextComponent}
@@ -121,14 +132,7 @@ export default class App extends React.Component {
           animationType="slide"
           transparent={true}
           visible={this.state.showAddAudioComponent}
-          onRequestClose={() => {
-            // this shouldn't be reached, because keyboard will automatically open with modal
-            // and if back is pressed to remove keyboard, modal will close
-            this.setState({
-              showAddAudioComponent: false,
-              showAddButton: true,
-            });
-          }}
+          onRequestClose={this.handleCancelAddAudio}
         >
           <NewAudioNote
             show={this.state.showAddAudioComponent}
@@ -251,6 +255,14 @@ export default class App extends React.Component {
     });
   }
 
+  handleCancelSearch() {
+    this.setState({
+      showSearchBar: false,
+      showHeader: true,
+      showAddButton: true,
+    });
+  }
+
   handleCancelAddText() {
     this.setState({
       showAddButton: true,
@@ -262,6 +274,14 @@ export default class App extends React.Component {
     this.setState({
       showAddButton: true,
       showAddAudioComponent: false,
+    });
+  }
+
+  handleShowSearch() {
+    this.setState({
+      showSearchBar: true,
+      showHeader: false,
+      showAddButton: false,
     });
   }
 

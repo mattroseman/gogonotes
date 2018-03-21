@@ -34,7 +34,7 @@ export default class Notes extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    'flex': 6,
+    flex: 6,
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'stretch',
