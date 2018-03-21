@@ -39,6 +39,10 @@ export default class SearchBar extends React.Component {
             underlineColorAndroid='transparent'
             enablesReturnKeyAutomatically={true}
             autoFocus={true}
+            returnKeyType={'search'}
+            onSubmitEditing={() => {
+              this.props.onSearch(this.state.text);
+            }}
           >
           </TextInput>
         </View>

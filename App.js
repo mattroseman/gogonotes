@@ -24,14 +24,19 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       notes: [],
+      searchNotes: [],
+
       showHeader: true,
       showSearchBar: false,
+      showSearch: false,
       showAddButton: true,
       showAddTextComponent: false,
       showAddAudioComponent: false,
 
       haveRecordingPermissions: false,
     };
+
+    this.handleSearch = this.handleSearch.bind(this);
 
     this.handleAddText = this.handleAddText.bind(this);
     this.handleAddAudio = this.handleAddAudio.bind(this);
@@ -108,11 +113,16 @@ export default class App extends React.Component {
           <SearchBar
             show={this.state.showSearchBar}
             onCancel={this.handleCancelSearch}
+            onSearch={this.handleSearch}
           >
           </SearchBar>
         </Modal>
 
-        <Notes notes={this.state.notes} onDelete={this.handleDeleteNote}></Notes>
+        <Notes
+          notes={this.state.showSearch ? this.state.searchNotes : this.state.notes}
+          onDelete={this.handleDeleteNote}
+        >
+        </Notes>
 
         <Modal
           animationType="slide"
@@ -232,6 +242,21 @@ export default class App extends React.Component {
     });
   }
 
+  handleSearch(searchText) {
+    searchNotes = this.state.notes.filter((note) => {
+      if (note.type === 'text') {
+        return note.value.toLowerCase().search(searchText.toLowerCase()) >= 0;
+      } else {
+        return false;
+      }
+    });
+
+    this.setState({
+      showSearch: true,
+      searchNotes: searchNotes
+    });
+  }
+
   handleDeleteNote(note) {
     database.transaction(tx => {
       tx.executeSql(
@@ -258,6 +283,7 @@ export default class App extends React.Component {
   handleCancelSearch() {
     this.setState({
       showSearchBar: false,
+      showSearch: false,
       showHeader: true,
       showAddButton: true,
     });
