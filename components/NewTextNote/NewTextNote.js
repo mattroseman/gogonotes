@@ -65,12 +65,9 @@ export default class NewTextNote extends React.Component {
   }
 
   handleAddButtonPress() {
-    this.props.onAdd(this.state.text);
-
-    // TODO do I need to do this, it should reset when adding again
-    this.setState({
-      text: ''
-    });
+    if (this.state.text !== '') {
+      this.props.onAdd(this.state.text);
+    }
   }
 
   handleCancelButtonPress() {
