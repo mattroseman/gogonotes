@@ -64,14 +64,11 @@ export default class App extends React.Component {
       );
 
       tx.executeSql(
-        'select from notes;',
+        'select * from notes;',
         [],
         (_, { rows }) => {
-          // TODO load the data when app starts up
-          console.log('test');
-          console.log(JSON.stringify(rows));
           this.setState({
-            notes: rows.array.map((row) => {
+            notes: rows._array.map((row) => {
               return {
                 key: row.id,
                 type: row.type,
@@ -82,6 +79,8 @@ export default class App extends React.Component {
           });
         }
       );
+    }, (err) => {
+      console.error(err);
     });
   }
 
