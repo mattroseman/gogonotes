@@ -1,0 +1,3 @@
+rootProject.name = 'gogonotes'
+
+include ':app'
