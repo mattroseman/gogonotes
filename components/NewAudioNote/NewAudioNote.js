@@ -8,7 +8,8 @@ import {
   Text
 } from 'react-native';
 
-import { Audio } from 'expo';
+// import { Audio } from 'expo';
+import { AudioRecorder, AudioUtils } from 'react-native-audio';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import Playback from '../Playback/Playback';
@@ -30,6 +31,17 @@ export default class NewAudioNote extends React.Component {
 
     this.handleStartRecording = this.handleStartRecording.bind(this);
     this.handleStopRecording = this.handleStopRecording.bind(this);
+  }
+
+  onComponentDidMount() {
+    let audioPath = AudioUtils.DocumentDirectoryPath + `/audio_note_${this.props.potentialId}.aac`;
+
+    AudioRecorder.prepareRecordingAtPath(audioPath, {
+      sampleRate: 22050,
+      Channels: 1,
+      AudioQuality: 'High',
+      AudioEncoding: 'aac'
+    });
   }
 
   render() {

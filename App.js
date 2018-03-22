@@ -26,6 +26,8 @@ export default class App extends React.Component {
       notes: [],
       searchNotes: [],
 
+      nextId: 0,
+
       showHeader: true,
       showSearchBar: false,
       showSearch: false,
@@ -69,6 +71,7 @@ export default class App extends React.Component {
         'select * from notes;',
         [],
         (_, { rows }) => {
+          // load notes from database
           this.setState({
             notes: rows._array.map((row) => {
               return {
@@ -78,6 +81,13 @@ export default class App extends React.Component {
                 date: row.date
               };
             })
+          }, () => {
+            // Get the max id and set nextId to that plus 1
+            maxId = max(this.state.notes.map((note) => { return note.key; }));
+
+            this.setState({
+              nextId: maxId + 1
+            });
           });
         }
       );
@@ -124,6 +134,7 @@ export default class App extends React.Component {
             show={this.state.showAddTextComponent}
             onAdd={this.handleAddText}
             onCancel={this.handleCancelAddText}
+            potentialId={this.state.nextId}
           >
           </NewTextNote>
         </Modal>
@@ -138,6 +149,7 @@ export default class App extends React.Component {
             show={this.state.showAddAudioComponent}
             onAdd={this.handleAddAudio}
             onCancel={this.handleCancelAddAudio}
+            potentialId={this.state.nextId}
           >
           </NewAudioNote>
         </Modal>
@@ -185,6 +197,7 @@ export default class App extends React.Component {
           this.setState((prevState) => {
             return {
               notes: prevState.notes.concat([newNote]),
+              nextId: newNote.key + 1,
               showAddButton: true,
               showAddTextComponent: false,
             };
@@ -224,6 +237,7 @@ export default class App extends React.Component {
           this.setState((prevState) => {
             return {
               notes: prevState.notes.concat([newNote]),
+              nextId: newNote.key + 1,
               showAddButton: true,
               showAddAudioComponent: false,
             };
