@@ -5,7 +5,8 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import { Audio, FileSystem } from 'expo';
+// import { Audio, FileSystem } from 'expo';
+import { Sound } from 'react-native-sound';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import colors from '../../colors';
@@ -61,6 +62,14 @@ export default class Playback extends React.Component {
     });
   }
 
+  onComponentDidMount() {
+    var sound = new Sound(this.props.audioURI, '', (err) => {
+      console.error(err);
+    });
+
+    this.sound = sound;
+  }
+
   render() {
     return (
       <TouchableOpacity
@@ -83,36 +92,56 @@ export default class Playback extends React.Component {
       playing: true,
     });
 
-    if (this.sound != null) {
-      this.sound.replayAsync();
-    } else {
-      const { sound, status } = await Audio.Sound.create(
-        //  require(this.props.audioURI),
-        { uri: this.props.audioURI },
-        {
-          isLooping: false,
-          isMuted: false,
-          volume: 1.0,
-          rate: 1.0,
-          shouldCorrectPitch: true,
-        }
-      );
+    this.sound.play((success) => {
+      if (!success) {
+        console.error('playback failed due to audio decoding errors');
+      }
+    });
+
+    // if (this.sound != null) {
+    //   this.sound.play();
+    // } else {
+    //   var sound = new Sound(this.props.audioURI, '', (err) => {
+    //     console.error(err);
+    //   });
+
+    //   sound.play((success) => {
+    //     if (!success) {
+    //       console.error('playback failed due to audio decoding errors');
+    //     }
+    //   });
+
+    //   this.sound = sound;
+    // }
 
 
-      sound.setOnPlaybackStatusUpdate((playbackStatus) => {
-        if (playbackStatus.didJustFinish) {
-          this.setState({
-            playing: false,
-          });
+      // const { sound, status } = await Audio.Sound.create(
+      //   //  require(this.props.audioURI),
+      //   { uri: this.props.audioURI },
+      //   {
+      //     isLooping: false,
+      //     isMuted: false,
+      //     volume: 1.0,
+      //     rate: 1.0,
+      //     shouldCorrectPitch: true,
+      //   }
+      // );
 
-          sound.unloadAsync();
-        }
-      });
 
-      this.sound = sound;
+      // sound.setOnPlaybackStatusUpdate((playbackStatus) => {
+      //   if (playbackStatus.didJustFinish) {
+      //     this.setState({
+      //       playing: false,
+      //     });
 
-      this.sound.playAsync();
-    }
+      //     sound.unloadAsync();
+      //   }
+      // });
+
+      // this.sound = sound;
+
+      // this.sound.playAsync();
+    // }
   }
 
   handleStopPlaying() {
@@ -121,7 +150,7 @@ export default class Playback extends React.Component {
     });
 
     if (this.sound != null) {
-      this.sound.pauseAsync();
+      this.sound.stop();
     }
   }
 }

@@ -42,6 +42,8 @@ export default class NewAudioNote extends React.Component {
   prepareRecordingPath() {
     let audioPath = AudioUtils.DocumentDirectoryPath + `/audio_note_${this.props.potentialId}.aac`;
 
+    console.log('test');
+
     AudioRecorder.prepareRecordingAtPath(audioPath, {
       sampleRate: 22050,
       Channels: 1,
