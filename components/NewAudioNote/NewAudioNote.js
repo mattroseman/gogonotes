@@ -11,6 +11,7 @@ import {
 // import { Audio } from 'expo';
 import { AudioRecorder, AudioUtils } from 'react-native-audio';
 import Icon from 'react-native-vector-icons/Ionicons';
+import RNFS from 'react-native-fs';
 
 import Playback from '../Playback/Playback';
 
@@ -35,20 +36,25 @@ export default class NewAudioNote extends React.Component {
     this.handleStopRecording = this.handleStopRecording.bind(this);
   }
 
-  onComponentDidMount() {
+  componentDidMount() {
     this.prepareRecordingPath();
   }
 
   prepareRecordingPath() {
-    let audioPath = AudioUtils.DocumentDirectoryPath + `/audio_note_${this.props.potentialId}.aac`;
-
-    console.log('test');
+    // let audioPath = AudioUtils.DocumentDirectoryPath + `/audio_note_${this.props.potentialId}.aac`;
+    let audioPath = RNFS.ExternalDirectoryPath + `/audio_note_${this.props.potentialId}.aac`;
 
     AudioRecorder.prepareRecordingAtPath(audioPath, {
       sampleRate: 22050,
       Channels: 1,
       AudioQuality: 'High',
-      AudioEncoding: 'aac'
+      AudioEncoding: 'amr_wb'
+    });
+
+    console.log(audioPath);
+
+    this.setState({
+      audioURI: audioPath
     });
   }
 
@@ -151,13 +157,13 @@ export default class NewAudioNote extends React.Component {
 
     try {
       const recordingFilePath = await AudioRecorder.stopRecording();
+
+      // this.setState({
+      //   audioURI: recordingFilePath
+      // });
     } catch(err) {
       console.error(err);
     }
-
-    this.setState({
-      audioURI: recordingFilePath
-    });
 
     // try {
     //   await this.recording.stopAndUnloadAsync();

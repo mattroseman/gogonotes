@@ -6,8 +6,9 @@ import {
 } from 'react-native';
 
 // import { Audio, FileSystem } from 'expo';
-import { Sound } from 'react-native-sound';
+import Sound from 'react-native-sound';
 import Icon from 'react-native-vector-icons/Ionicons';
+import RNFS from 'react-native-fs';
 
 import colors from '../../colors';
 
@@ -62,8 +63,9 @@ export default class Playback extends React.Component {
     });
   }
 
-  onComponentDidMount() {
-    var sound = new Sound(this.props.audioURI, '', (err) => {
+  componentDidMount() {
+    console.log(RNFS.ExternalDirectoryPath + '/audio_note_0.amr_wb');
+    var sound = new Sound(RNFS.ExternalDirectoryPath + '/audio_note_0.amr_wb', (err) => {
       console.error(err);
     });
 
@@ -88,15 +90,23 @@ export default class Playback extends React.Component {
   }
 
   async handleStartPlaying() {
-    this.setState({
-      playing: true,
-    });
 
     this.sound.play((success) => {
-      if (!success) {
-        console.error('playback failed due to audio decoding errors');
+      if (success) {
+        this.setState({
+          playing: true,
+        });
+      } else {
+        console.log('playback failed due to audio decoding errors');
       }
     });
+
+
+    // this.sound.play((success) => {
+    //   if (!success) {
+    //     console.error('playback failed due to audio decoding errors');
+    //   }
+    // });
 
     // if (this.sound != null) {
     //   this.sound.play();
