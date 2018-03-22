@@ -26,6 +26,8 @@ export default class NewAudioNote extends React.Component {
       playing: false,
     };
 
+    this.prepareRecordingPath = this.prepareRecordingPath.bind(this);
+
     this.handleAddButtonPress = this.handleAddButtonPress.bind(this);
     this.handleCancelButtonPress = this.handleCancelButtonPress.bind(this);
 
@@ -34,6 +36,10 @@ export default class NewAudioNote extends React.Component {
   }
 
   onComponentDidMount() {
+    this.prepareRecordingPath();
+  }
+
+  prepareRecordingPath() {
     let audioPath = AudioUtils.DocumentDirectoryPath + `/audio_note_${this.props.potentialId}.aac`;
 
     AudioRecorder.prepareRecordingAtPath(audioPath, {
@@ -118,15 +124,21 @@ export default class NewAudioNote extends React.Component {
       recording: true,
     });
 
-    const recording = new Audio.Recording();
     try {
-      await recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY);
-      await recording.startAsync();
-    } catch (err) {
+      const recordingFilePath = await AudioRecorder.startRecording();
+    } catch(err) {
       console.error(err);
     }
 
-    this.recording = recording;
+    // const recording = new Audio.Recording();
+    // try {
+    //   await recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY);
+    //   await recording.startAsync();
+    // } catch (err) {
+    //   console.error(err);
+    // }
+
+    // this.recording = recording;
   }
 
   async handleStopRecording() {
@@ -136,14 +148,24 @@ export default class NewAudioNote extends React.Component {
     });
 
     try {
-      await this.recording.stopAndUnloadAsync();
-    } catch (err) {
+      const recordingFilePath = await AudioRecorder.stopRecording();
+    } catch(err) {
       console.error(err);
     }
 
     this.setState({
-      audioURI: this.recording.getURI()
+      audioURI: recordingFilePath
     });
+
+    // try {
+    //   await this.recording.stopAndUnloadAsync();
+    // } catch (err) {
+    //   console.error(err);
+    // }
+
+    // this.setState({
+    //   audioURI: this.recording.getURI()
+    // });
   }
 }
 
