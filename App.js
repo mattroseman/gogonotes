@@ -6,7 +6,7 @@ import {
   Modal
 } from 'react-native';
 
-import { SQLite } from 'expo';
+import SQLite from 'react-native-sqlite-storage';
 
 import Header from './components/Header/Header';
 import SearchBar from './components/SearchBar/SearchBar';
@@ -17,7 +17,7 @@ import Add from './components/Add/Add';
 
 import colors from './colors';
 
-const database = SQLite.openDatabase('gogonotes.db');
+const database = SQLite.openDatabase({name: 'gogonotes.db', location: 'default'});
 
 export default class App extends React.Component {
   constructor(props) {
