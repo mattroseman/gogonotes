@@ -6,7 +6,7 @@ import {
   Modal
 } from 'react-native';
 
-import { Permissions, SQLite } from 'expo';
+import { SQLite } from 'expo';
 
 import Header from './components/Header/Header';
 import SearchBar from './components/SearchBar/SearchBar';
@@ -32,8 +32,6 @@ export default class App extends React.Component {
       showAddButton: true,
       showAddTextComponent: false,
       showAddAudioComponent: false,
-
-      haveRecordingPermissions: false,
     };
 
     this.handleSearch = this.handleSearch.bind(this);
@@ -53,15 +51,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    this.askForPermissions();
     this.initializeDatabase();
-  }
-
-  async askForPermissions() {
-    const response = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
-    this.setState({
-      haveRecordingPermissions: response.status === 'granted',
-    });
   }
 
   initializeDatabase() {
